@@ -52,10 +52,6 @@ npx skills@latest add rosuH/skills --list
 skills/
 +-- ascii-explainer/
     +-- SKILL.md
-    +-- references/
-    |   +-- patterns.md
-    +-- agents/
-        +-- openai.yaml
 ```
 
 仓库组织方式参考 [mattpocock/skills](https://github.com/mattpocock/skills)。
