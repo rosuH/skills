@@ -1,6 +1,6 @@
 # rosuH's Skills
 
-[![skills.sh](https://skills.sh/b/rosuH/skills)](https://skills.sh/rosuH/skills)
+[![skills.sh](https://img.shields.io/badge/skills.sh-ascii--explainer-black)](https://skills.sh/rosuh/skills)
 
 [English](README.md) | 简体中文
 
