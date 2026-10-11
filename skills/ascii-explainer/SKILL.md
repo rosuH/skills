@@ -5,7 +5,7 @@ description: Explain concepts, workflows, architecture, algorithms, data layouts
 
 # ASCII Explainer
 
-Help the reader understand a concrete question through a copyable text diagram. By default, explain briefly in Chinese; follow the user's language and format preferences.
+Help the reader understand a concrete question through a copyable text diagram. Follow the user's language and format preferences.
 
 ## Find the Visual Idea
 
