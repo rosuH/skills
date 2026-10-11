@@ -52,6 +52,8 @@ npx skills@latest add rosuH/skills --list
 skills/
 +-- ascii-explainer/
     +-- SKILL.md
+    +-- references/
+    |   +-- patterns.md
     +-- agents/
         +-- openai.yaml
 ```

@@ -52,6 +52,8 @@ Add instructions in `skills/<skill-name>/SKILL.md`, with `name` and `description
 skills/
 +-- ascii-explainer/
     +-- SKILL.md
+    +-- references/
+    |   +-- patterns.md
     +-- agents/
         +-- openai.yaml
 ```
