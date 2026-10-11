@@ -1,46 +1,46 @@
 ---
 name: ascii-explainer
-description: 用 ASCII 文本图解释概念、业务逻辑、执行流程、系统架构和方案差异。用户要求 ASCII、文本图、画清关系，或解释类问题适合用图时使用；简单事实和一句话能说清的问题无需强行画图。用户指定其他格式时遵从其选择。
+description: Explain concepts, business logic, workflows, system architecture, and differences between options with ASCII diagrams. Use when the user asks for ASCII, text diagrams, or clear relationships, or when a diagram would help explain a topic. Do not force a diagram for simple facts or questions that one sentence can answer. Follow the user's choice if they request another format.
 ---
 
 # ASCII Explainer
 
-让用户通过图理解关系与行为。默认在聊天中直接交付可复制的文本图，配简短中文说明；用户使用其他语言时随其语言。
+Help users understand relationships and behavior through diagrams. By default, provide copyable text diagrams directly in chat with brief Chinese explanations. If the user uses another language, use that language instead.
 
-## 组织解释
+## Organize the Explanation
 
-- 先用一句话说明核心判断，再用图展开。让图承担主要解释，正文只补充关键差异、约束和例外，不逐行复述图。
-- 先确定用户要理解的关系：组成、调用、数据流、先后顺序、状态变化或方案差异。选择最能表达它的一种图形。
-- 信息多时先画总览，再放大一个关键局部。避免将所有模块和细节塞进同一张图。
-- 解释现有系统时依据已知事实或相关代码；标清当前实现、拟议方案和未知部分。流程存在不代表已运行或已验收。
+- State the main point in one sentence, then expand it with a diagram. Let the diagram carry the explanation. Add prose only for key differences, constraints, and exceptions; do not repeat the diagram line by line.
+- First identify the relationship the user needs to understand: composition, calls, data flow, sequence, state changes, or differences between options. Choose the diagram type that best shows it.
+- For complex topics, start with an overview, then expand one important part. Do not pack every module and detail into one diagram.
+- Base explanations of existing systems on known facts or relevant code. Clearly distinguish the current implementation, proposed changes, and unknowns. The existence of a workflow does not prove that it has run or passed acceptance checks.
 
-## 选图
+## Choose a Diagram
 
-| 要解释的内容 | 优先表达 |
+| Topic | Preferred format |
 | --- | --- |
-| 概念与组成 | 树、包含关系、少量有标签的关联 |
-| 操作流程与判断 | 单向流程、带条件的分支、明确的汇合或结束 |
-| 架构与职责 | 分层或组件图，标清边界和接口 |
-| 多方交互 | 简短泳道或时序图 |
-| 变化与选型 | 同一粒度的 Before / After 或并排对比 |
-| 状态与反馈 | 状态转换图，标明事件、回路与退出条件 |
+| Concepts and composition | A tree, containment, or a few labeled relationships |
+| Workflows and decisions | A flow in one direction, conditional branches, and clear joins or endpoints |
+| Architecture and responsibilities | A layered or component diagram with clear boundaries and interfaces |
+| Interactions between participants | A short swimlane or sequence diagram |
+| Changes and choices | Before / After or side-by-side comparisons at the same level of detail |
+| States and feedback | A state transition diagram with events, loops, and exit conditions |
 
-不必展示所有图形，也不必按固定模板输出。
+Do not show every diagram type or follow a fixed template.
 
-## 绘图约定
+## Drawing Rules
 
-- 图放在 fenced `text` 代码块内，使用空格缩进，不使用 Tab。
-- 框线、连接线和箭头使用 ASCII 字符，例如 `+ - | / \ > <`。默认不使用 Unicode 框线、emoji 或 Mermaid。
-- 图中文字优先易懂。中文节点适合简单纵向图；复杂对齐时用短英文标识，并在图外给出中文解释。不要依赖中文字符与英文字符等宽。
-- 尽量控制在约 80 个显示列以内。太宽时改为纵向、拆成两图或减少节点，不靠缩小字体。
-- 箭头应有明确语义，例如调用、数据传递或状态转换；容易混淆时写在线旁或给一个简短图例。同一种线在一张图内保持同一含义。
-- 单选分支标明条件；并行分支说明并行。多个箭头汇入同一节点不能含糊地同时表示“选一个”和“全部完成”。
-- 循环标清返回位置和退出条件。错误、超时、恢复或清理影响理解时画出来；无关时省略。
-- 保留真实的职责、数据归属、进程/设备边界。不要为图形对称而发明组件、依赖或保证。
+- Put diagrams in fenced `text` code blocks. Use spaces for indentation, not tabs.
+- Use ASCII characters for boxes, lines, and arrows, such as `+ - | / \ > <`. Do not use Unicode box-drawing characters, emoji, or Mermaid by default.
+- Prioritize readable labels. Chinese labels work well in simple vertical diagrams. For complex alignment, use short English labels and explain them in Chinese outside the diagram. Do not assume that Chinese and English characters have the same display width.
+- Aim for about 80 display columns or fewer. If a diagram is too wide, make it vertical, split it into two diagrams, or reduce the number of nodes. Do not rely on a smaller font.
+- Give arrows a clear meaning, such as calls, data transfer, or state transitions. If the meaning could be unclear, label the line or add a short legend. Use each line style consistently within a diagram.
+- Label conditions on mutually exclusive branches. Mark parallel branches as parallel. When several arrows converge, make clear whether the next step needs one incoming path or all incoming paths to finish.
+- Mark where loops return and when they exit. Show errors, timeouts, recovery, or cleanup when they affect understanding; omit them otherwise.
+- Preserve actual responsibilities, data ownership, and process or device boundaries. Do not invent components, dependencies, or guarantees to make a diagram symmetrical.
 
-## 简短示例
+## Short Examples
 
-解释职责分工时，可用：
+To explain responsibilities:
 
 ```text
 [UI] -- request --> [Runner] -- action --> [Device]
@@ -49,7 +49,7 @@ description: 用 ASCII 文本图解释概念、业务逻辑、执行流程、系
  +---------------- read --------------------^
 ```
 
-解释重试时，条件应可见：
+To explain retries, make the conditions visible:
 
 ```text
 [Attempt] --> <Result?> -- success --> [Done]
@@ -60,10 +60,10 @@ description: 用 ASCII 文本图解释概念、业务逻辑、执行流程、系
                   +-- otherwise --> [Failed]
 ```
 
-示例只演示画法，不能作为待解释系统的事实或固定架构。
+These examples show drawing techniques only. They are not facts about the system being explained or a required architecture.
 
-## 交付前检查
+## Check Before Delivery
 
-逐条沿箭头阅读：起点、方向、条件、汇合、结束是否说得通？节点命名是否一致？图和文字是否矛盾？若缩略了影响结论的细节，用一句话说明。
+Follow each arrow. Do its start, direction, condition, join, and endpoint make sense? Are node names consistent? Do the diagram and prose agree? If you omit details that affect the conclusion, state that in one sentence.
 
-这是解释技能，不自动授权实现、安装、发布或创建额外文件。只为绘图排版不需要调用工具；涉及具体实现或易变化的事实时按任务需要核查。
+This skill is for explanations. It does not by itself authorize implementation, installation, publication, or the creation of extra files. Formatting a diagram alone does not require tools. Verify specific implementations or facts that may change when the task requires it.
