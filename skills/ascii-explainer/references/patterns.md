@@ -1,6 +1,6 @@
 # ASCII Patterns
 
-Use only the relevant pattern. These are original teaching examples, not claims about a particular project or templates to fill mechanically.
+These original teaching examples are a sketchbook, not a template catalog. Borrow, combine, rotate, simplify, or replace their visual ideas to fit the question. Their shapes do not define the scope of this skill or describe a particular project.
 
 Contents: [relationships](#relationships), [branches and retries](#branches-and-retries), [ordering and interleaving](#ordering-and-interleaving), [typed flow](#typed-flow), [snapshots and effective views](#snapshots-and-effective-views), [layouts and ranges](#layouts-and-ranges), [annotations and reasoning](#annotations-and-reasoning), [comparisons](#comparisons).
 
