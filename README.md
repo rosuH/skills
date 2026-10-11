@@ -1,48 +1,52 @@
 # rosuH's Skills
 
-我的个人 Agent Skills 集合。每个 skill 专注一件事，用简短、可复用的指令帮助 AI 完成任务。
+[![skills.sh](https://skills.sh/b/rosuH/skills)](https://skills.sh/rosuH/skills)
+
+English | [简体中文](README.zh-CN.md)
+
+My personal collection of agent skills. Each skill focuses on one task, with concise, reusable instructions for AI agents.
 
 ## Skills
 
-| Skill | 用途 |
+| Skill | Purpose |
 | --- | --- |
-| [ascii-explainer](skills/ascii-explainer/SKILL.md) | 用 ASCII 文本图解释概念、业务逻辑、执行流程、系统架构和方案差异。 |
+| [ascii-explainer](skills/ascii-explainer/SKILL.md) | Explain concepts, business logic, workflows, system architecture, and trade-offs with ASCII diagrams. |
 
-## 安装
+## Installation
 
-需要 Node.js 和 npm。在目标项目目录运行：
+Requires Node.js and npm. Run this command in your project directory:
 
 ```bash
 npx skills@latest add rosuH/skills --skill ascii-explainer
 ```
 
-安装时选择需要使用的 agent。若要全局安装到 Codex：
+Choose your agent during installation. To install globally for Codex:
 
 ```bash
 npx skills@latest add rosuH/skills --skill ascii-explainer --agent codex --global
 ```
 
-查看仓库内可安装的 skills：
+To list the available skills:
 
 ```bash
 npx skills@latest add rosuH/skills --list
 ```
 
-安装选项详见 [skills CLI 文档](https://github.com/vercel-labs/skills#install-a-skill)。
+See the [skills CLI documentation](https://github.com/vercel-labs/skills#install-a-skill) for installation options.
 
-## 使用示例
+## Usage Examples
 
 ```text
-使用 $ascii-explainer，用 ASCII 图解释一次 HTTP 请求的完整流程。
+Use $ascii-explainer to explain the full lifecycle of an HTTP request with an ASCII diagram.
 ```
 
 ```text
-用 ASCII 图对比同步调用和消息队列，标出数据流与失败路径。
+Compare synchronous calls and message queues with ASCII diagrams. Show data flow and failure paths.
 ```
 
-## 添加 Skill
+## Adding a Skill
 
-在 `skills/<skill-name>/SKILL.md` 中保存指令，并在文件开头声明 `name` 和 `description`。如有附属文件，一并放在该 skill 目录中，再更新上方列表。
+Add instructions in `skills/<skill-name>/SKILL.md`, with `name` and `description` in the YAML frontmatter. Keep supporting files in the same skill directory, then update the list above.
 
 ```text
 skills/
@@ -52,4 +56,4 @@ skills/
         +-- openai.yaml
 ```
 
-仓库组织方式参考 [mattpocock/skills](https://github.com/mattpocock/skills)。
+Repository structure inspired by [mattpocock/skills](https://github.com/mattpocock/skills).
