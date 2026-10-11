@@ -1,0 +1,4 @@
+interface:
+  display_name: "ASCII Explainer"
+  short_description: "用 ASCII 文本图解释概念、流程和系统架构，配简短中文说明"
+  default_prompt: "使用 $ascii-explainer，用 ASCII 图解释这个概念、逻辑或架构，标清关系和关键分支，再配简短说明。"
