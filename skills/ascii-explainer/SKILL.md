@@ -29,7 +29,7 @@ Help the reader answer a concrete question with a copyable text diagram. By defa
 | Why is this step valid or wrong? | Aligned candidates or caret annotations | Exact mismatch, preconditions, counterexample |
 | How do options or quantities compare? | Matrix, interval, or small bar chart | Common criteria, units, scale, uncertainty |
 
-Use the smallest representation that answers the question. A table, annotation, or two snapshots may work better than boxes. For a dense topic, show an overview and one useful detail with matching identifiers.
+Use the smallest representation that answers the question. A table, annotation, or two snapshots may work better than boxes. For exact coverage, field boundaries, or resource schedules, make the checked interval/field/task table the diagram. Do not add a second spatial rendering of the same numbers unless the reader needs that spatial relationship. Use a proportional drawing when requested or necessary, and verify its cells against the table. For other dense topics, an overview and one useful detail may help; keep identifiers consistent.
 
 Read the relevant section of [references/patterns.md](references/patterns.md) when you need a concrete layout or a check for one of these cases. Do not load or reproduce the whole catalog for a simple explanation.
 
@@ -53,11 +53,15 @@ Read the relevant section of [references/patterns.md](references/patterns.md) wh
 
 ## Check Before Delivery
 
-Do two separate passes, scaled to the explanation:
+For exact ranges, field layouts, or resource schedules, read [references/checks.md](references/checks.md) and run the bundled `scripts/check.py` on a temporary JSON model transcribed from the source. It computes coverage and field offsets, validates proposed schedules, and renders aligned ASCII tables. Keep scenario variants separate. Compare the structured input with the source before trusting a pass.
+
+Use the returned tables unchanged in the answer; explain them in the user's language outside the blocks. Run the checker again with `--answer` on the final draft to detect changed, omitted, extra, or misaligned blocks. Correct failures against the source and rerun. Do not hand-redraw the same checked data. Review prose against the computed facts; table verification does not validate prose. A feasible schedule is not an optimality proof unless the bound is reached or a separate proof is given. If tools are unavailable or the model cannot express the source semantics, disclose the unverified part rather than claiming a pass.
+
+Also do two separate passes, scaled to the explanation:
 
 1. **Semantic check:** Compare the diagram with the source, prose, and numbers. Trace one relevant input, object, or event through it. Check a boundary or failure case if it could change the conclusion. Check widths, counts, ordering, and conditions for the chosen representation. If evidence conflicts, resolve or disclose the conflict instead of silently copying the diagram.
-2. **Visual check:** Read the exact monospaced block. Follow every connector to its endpoint; check marker positions, label alignment, junctions, and width. After an edit, recheck adjacent lines and related views. Correct geometry does not prove correct behavior.
+2. **Visual check:** Read the exact monospaced block. Follow every connector to its endpoint; check marker positions, label alignment, junctions, and width. After an edit, recheck adjacent lines and related views. Correct geometry does not prove correct behavior. Conversely, correct prose does not repair a wrong diagram. If precise alignment is uncertain, replace the spatial drawing with an explicit interval or field table rather than leaving approximate markers.
 
 Remove a diagram if it adds no useful relationship beyond the sentence. Formatting alone needs no tools; use tools to verify specific implementations, changing facts, or exact arithmetic when the task requires it.
 
-This skill supports explanations. It does not itself authorize implementation, installation, publication, or extra files.
+This skill supports explanations and temporary calculation inputs. It does not authorize unrelated implementation, installation, or publication.
