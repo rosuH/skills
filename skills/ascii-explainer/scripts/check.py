@@ -324,38 +324,45 @@ def schedule(m):
     return result,tables
 
 
-def check(document, answer=None):
+def check(document, answer=None, view='diagram'):
+    from render import diagram
+    require(view in ('diagram','table'), 'view must be diagram or table')
     if isinstance(document,dict) and 'models' in document:
         obj(document,'models',('models',));models=array(document['models'])
     else: models=[document]
     require(models,'no models')
-    outputs=[];all_tables=[];seen=set()
+    outputs=[];all_blocks=[];seen=set()
     for m in models:
         require(isinstance(m,dict),'model must be an object')
         name=ident(m.get('id','model'));require(name not in seen,'duplicate model id');seen.add(name)
         kind=m.get('kind');require(kind in ('ranges','fields','schedule'),'kind must be ranges, fields, or schedule')
         facts,tables={'ranges':ranges,'fields':fields,'schedule':schedule}[kind](m)
-        outputs.append(dict(id=name,kind=kind,facts=facts,tables=tables));all_tables.extend(tables)
+        blocks=diagram(m,facts,tables) if view=='diagram' else tables
+        outputs.append(dict(id=name,kind=kind,facts=facts,tables=tables,blocks=blocks));all_blocks.extend(blocks)
     if answer is not None:
         fenced=re.findall(r'^```([^\n]*)\n(.*?)\n```$',answer,re.M|re.S)
         require(answer.count('```') == 2*len(fenced) and not re.search(r'(?m)^ *~{3,}',answer),
                 'answer code blocks must use complete triple-backtick text fences')
         require(all(language == 'text' for language, _ in fenced), 'answer code blocks must use text fences')
+        prose=re.sub(r'^```[^\n]*\n.*?\n```$', '', answer, flags=re.M|re.S)
+        require(not re.search(r'(?m)^(?: {4}|\t)[ \t]*\S',prose),
+                'answer code blocks must not use unchecked indented blocks')
         blocks=[body for _, body in fenced]
-        require(Counter(blocks)==Counter(all_tables),'answer code blocks differ from generated tables (missing, changed, extra, or duplicate block)')
+        require(Counter(blocks)==Counter(all_blocks),'answer code blocks differ from generated blocks (missing, changed, extra, or duplicate block)')
     return dict(ok=True,scope='structured inputs only; source transcription and prose need review',answer_checked=answer is not None,models=outputs)
 
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('input',help='JSON model file; - reads stdin')
-    parser.add_argument('--answer',help='verify all fenced answer blocks exactly match generated tables')
+    parser.add_argument('--view',choices=['diagram','table'],default='diagram',help='bound output view (default: diagram)')
+    parser.add_argument('--answer',help='verify all fenced answer blocks exactly match the selected view')
     args=parser.parse_args()
     try:
         raw=sys.stdin.read() if args.input=='-' else Path(args.input).read_text()
         document=json.loads(raw)
         answer=Path(args.answer).read_text() if args.answer else None
-        result=check(document,answer)
+        result=check(document,answer,args.view)
     except (ValueError,TypeError,KeyError,OverflowError,OSError,RecursionError) as exc:
         print(json.dumps(dict(ok=False,error=str(exc)),ensure_ascii=True))
         return 2

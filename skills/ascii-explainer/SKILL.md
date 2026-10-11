@@ -29,7 +29,7 @@ Help the reader answer a concrete question with a copyable text diagram. By defa
 | Why is this step valid or wrong? | Aligned candidates or caret annotations | Exact mismatch, preconditions, counterexample |
 | How do options or quantities compare? | Matrix, interval, or small bar chart | Common criteria, units, scale, uncertainty |
 
-Use the smallest representation that answers the question. A table, annotation, or two snapshots may work better than boxes. For exact coverage, field boundaries, or resource schedules, make the checked interval/field/task table the diagram. Do not add a second spatial rendering of the same numbers unless the reader needs that spatial relationship. Use a proportional drawing when requested or necessary, and verify its cells against the table. For other dense topics, an overview and one useful detail may help; keep identifiers consistent.
+Use the smallest representation that answers the question. For exact ranges, fields, and schedules, prefer the checker's coverage strips, byte/bit diagrams, and shared-axis resource timelines. Use its table view when the reader needs a lookup table or the diagram is too dense. A diagram should reveal extent, adjacency, gaps, or overlap at a glance; a ledger should support it only when needed. Keep identifiers consistent across views and explain only what the visual does not make clear.
 
 Read the relevant section of [references/patterns.md](references/patterns.md) when you need a concrete layout or a check for one of these cases. Do not load or reproduce the whole catalog for a simple explanation.
 
@@ -53,9 +53,9 @@ Read the relevant section of [references/patterns.md](references/patterns.md) wh
 
 ## Check Before Delivery
 
-For exact ranges, field layouts, or resource schedules, read [references/checks.md](references/checks.md) and run the bundled `scripts/check.py` on a temporary JSON model transcribed from the source. It computes coverage and field offsets, validates proposed schedules, and renders aligned ASCII tables. Keep scenario variants separate. Compare the structured input with the source before trusting a pass.
+For exact ranges, field layouts, or resource schedules, read [references/checks.md](references/checks.md) and run the bundled `scripts/check.py` on a temporary JSON model transcribed from the source. It computes coverage and field offsets, validates proposed schedules, and renders aligned ASCII diagrams or tables. Keep scenario variants separate. Compare the structured input with the source before trusting a pass.
 
-Use the returned tables unchanged in the answer; explain them in the user's language outside the blocks. Run the checker again with `--answer` on the final draft to detect changed, omitted, extra, or misaligned blocks. Correct failures against the source and rerun. Do not hand-redraw the same checked data. Review prose against the computed facts; table verification does not validate prose. A feasible schedule is not an optimality proof unless the bound is reached or a separate proof is given. If tools are unavailable or the model cannot express the source semantics, disclose the unverified part rather than claiming a pass.
+Use the returned `blocks` unchanged in fenced `text` blocks; explain them in the user's language outside the blocks. Run the checker again with the same `--view` and `--answer` on the actual final draft. Correct failures against the source and rerun. Do not add an unchecked redraw or paste both complete views by default. Check scale labels before comparing lengths: compressed views are explicitly not to scale. Review prose against the computed facts; diagram verification does not validate prose. A feasible schedule is not an optimality proof unless the bound is reached or a separate proof is given. If tools are unavailable or the model cannot express the source semantics, disclose the unverified part rather than claiming a pass.
 
 Also do two separate passes, scaled to the explanation:
 

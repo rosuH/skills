@@ -129,10 +129,40 @@ class Checks(unittest.TestCase):
             'plan':[{'id':'A','start':0,'end':2,'using':['W1']}]}
         r=check(m);self.assertEqual(r['models'][0]['facts']['optimality'],'proven_by_bound')
         answer='\n\n'.join('```text\n'+t+'\n```' for t in r['models'][0]['tables'])
-        self.assertTrue(check(m,answer)['answer_checked'])
+        self.assertTrue(check(m,answer,view='table')['answer_checked'])
         for bad in (answer.replace('W1','W2'),answer+'\n```text\nextra\n```',answer+answer,answer.replace('  ',' ',1),answer.replace('```text','```json'),answer.replace('```text','```'),answer+'\n```',answer.replace('```','````'),answer+'\n~~~text\nextra\n~~~'):
             with self.subTest(bad=bad):
-                with self.assertRaisesRegex(Invalid,'answer code blocks'): check(m,bad)
+                with self.assertRaisesRegex(Invalid,'answer code blocks'): check(m,bad,view='table')
+
+    def test_diagram_geometry_and_binding(self):
+        r=check(self.sched());block=r['models'][0]['blocks'][0]
+        # Columns before the trailing boundary encode two cells per time unit.
+        lanes={line.split()[0]:line.split()[1][:-1] for line in block.splitlines()
+               if line.startswith(('W1 ', 'W2 ', 'G '))}
+        self.assertEqual(lanes,{'W1':'AAAAAAAABBBBBBDD',
+                                'W2':'........CCCC....','G':'AAAAAAAABBBBBB..'})
+        answer='```text\n'+block+'\n```'
+        self.assertTrue(check(self.sched(),answer)['answer_checked'])
+        for bad in (answer.replace('AAAA','....',1),answer+'\n    A -> B',answer+'\n     A -> B',answer+answer):
+            with self.assertRaises(Invalid):check(self.sched(),bad)
+        self.assertEqual(r['models'][0]['facts'],check(self.sched(),view='table')['models'][0]['facts'])
+
+    def test_field_and_range_diagrams(self):
+        r=check(self.layout(0))['models'][0]['blocks'][0]
+        self.assertIn('bytes  NNNNBBCC|',r)
+        self.assertIn('payload [0x107,0x107): 0 byte(s); empty',r)
+        partial={'kind':'fields','origin':27,'data':'50 09 00 A6 01 C0','fields':[
+            {'id':'head','size':3},{'id':'payload','size':2},{'id':'CRC','size':2}]}
+        block=check(partial)['models'][0]['blocks'][0]
+        self.assertIn('received  ############..|',block)
+        m={'kind':'ranges','start':-3,'end':4,'regions':[{'id':'X','start':1,'end':4,'priority':0}]}
+        block=check(m)['models'][0]['blocks'][0]
+        self.assertIn('visible  ..XXXXXX......|',block)
+        m['end']=1000000
+        self.assertIn('NOT TO SCALE',check(m)['models'][0]['blocks'][0])
+        for model in (m,partial,self.layout(0),self.sched()):
+            for block in check(model)['models'][0]['blocks']:
+                self.assertTrue(block.isascii());self.assertLessEqual(max(map(len,block.splitlines())),80)
 
 
 if __name__=='__main__':

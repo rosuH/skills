@@ -7,9 +7,13 @@ python3 /path/to/ascii-explainer/scripts/check.py /tmp/model.json
 python3 /path/to/ascii-explainer/scripts/check.py /tmp/model.json --answer /tmp/answer.md
 ```
 
-The first command returns `ok`, computed `facts`, and ready-to-copy `tables`. Exit 2 means invalid input or a failed check; read the error and correct the model or proposed result against the source. Do not weaken the source constraints to get a pass. A document can contain one model or `{"models": [model1, model2]}` with distinct `id` values for scenario variants.
+The first command returns `ok`, computed `facts`, reference `tables`, and ready-to-copy `blocks`. Exit 2 means invalid input or a failed check; read the error and correct the model or proposed result against the source. Do not weaken the source constraints to get a pass. A document can contain one model or `{"models": [model1, model2]}` with distinct `id` values for scenario variants.
 
-Write the answer with **each returned table as an unchanged fenced `text` block**, exactly once. The second command compares every fenced block with the returned tables, including spaces; it rejects missing, changed, extra, or duplicated blocks. Keep prose outside those blocks. This binds rendering to the checked model. It does not check natural-language claims or whether the input faithfully represents the user's facts. Review those separately, including units, coordinate origins, dependencies, omitted cases, and unknown behavior. The checker never establishes that a real implementation ran successfully.
+The default `--view diagram` returns coverage strips, byte/bit diagrams, or resource timelines in `blocks`. These use the same validated facts as the tables. Copy **each returned block unchanged into a fenced `text` block**, exactly once. Do not also paste the reference tables. Use `--view table` on both commands when a table better serves the reader. Dense diagrams fall back to tables with an explicit reason.
+
+Axes use shared boundary columns and state their scale. Interior labels that would collide are omitted; exact bounds remain in the key. Large spans can use an explicitly `NOT TO SCALE` view with equal-width segments and exact bounds. Never compare visual lengths across different scale labels. Empty fields occupy no cells. In timelines, repeated task codes on different resources denote the same task, not additional executions; dependency arrows are separate from resource order.
+
+The second command checks the selected view's blocks, including spaces, and rejects missing, changed, extra, duplicated, or malformed blocks. Keep prose outside them, without indented code blocks or additional hand-drawn views. This binds rendering to the checked model. It does not check natural-language claims or whether the input faithfully represents the user's facts. Review those separately, including units, coordinate origins, dependencies, omitted cases, and unknown behavior. The checker never establishes that a real implementation ran successfully.
 
 ## Ranges
 
@@ -89,4 +93,4 @@ A valid schedule is not automatically optimal. The checker computes a lower boun
 
 ## Limits
 
-A successful check validates the structured model and, with `--answer`, exact table reuse. It does not validate source transcription, prose, unsupported semantics, or arbitrary hand-drawn ASCII. If the model does not fit, say which claim remains unchecked; do not silently change the problem to fit the checker. Run the bundled rejection tests with `python3 scripts/test_check.py` when changing the checker.
+A successful check validates the structured model and, with `--answer`, exact reuse of the selected view. It does not validate source transcription, prose, unsupported semantics, or arbitrary hand-drawn ASCII. If the model does not fit, say which claim remains unchecked; do not silently change the problem to fit the checker. Run the bundled rejection tests with `python3 scripts/test_check.py` when changing the checker.
