@@ -26,6 +26,14 @@ Let the subject determine the shape. A mixed view, a zoomed detail, or a novel a
 
 Browse [references/patterns.md](references/patterns.md) when a concrete example would spark an idea. Borrow a useful technique, not the entire layout. There is no required schema, renderer, script, or fixed output structure.
 
+## Explain Code Architecture and Flow
+
+For an existing codebase, start from the relevant entry point and follow the calls, interfaces, state, and side effects that answer the question. Use recognizable code identifiers. Directory names alone do not establish architecture; check how components are wired, especially injected implementations, callbacks, and message consumers. Link a few useful source locations outside the diagram when they help the reader navigate.
+
+Choose the viewpoint deliberately: module dependencies, runtime collaboration, deployment boundaries, or one operation's control flow. Show responsibilities and meaningful boundaries at a consistent level of detail. An overview plus a focused trace can help, but draw only the views the question needs. Mark proposals separately from the current implementation.
+
+For a flowchart, make the trigger, consequential decisions, and outcomes easy to follow. Label branch conditions; show loops, early exits, errors, cleanup, or asynchronous handoffs where they change the result. A linear pipeline works for straight-through processing; use branches, lanes, or states when those reveal more. See the [architecture](references/patterns.md#code-architecture) and [control-flow](references/patterns.md#control-flow) sketches for ideas.
+
 ## Keep the Explanation Faithful
 
 - Ground claims about an existing system in the supplied facts or relevant sources. Mark assumptions, unknowns, and illustrative examples. A possible trace is not a guarantee, and a workflow drawing is not evidence that it ran.

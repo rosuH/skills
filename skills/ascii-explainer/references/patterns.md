@@ -2,7 +2,65 @@
 
 These original teaching examples are a sketchbook, not a template catalog. Borrow, combine, rotate, simplify, or replace their visual ideas to fit the question. Their shapes do not define the scope of this skill or describe a particular project.
 
-Contents: [relationships](#relationships), [branches and retries](#branches-and-retries), [ordering and interleaving](#ordering-and-interleaving), [typed flow](#typed-flow), [snapshots and effective views](#snapshots-and-effective-views), [layouts and ranges](#layouts-and-ranges), [annotations and reasoning](#annotations-and-reasoning), [comparisons](#comparisons).
+Contents: [code architecture](#code-architecture), [control flow](#control-flow), [relationships](#relationships), [branches and retries](#branches-and-retries), [ordering and interleaving](#ordering-and-interleaving), [typed flow](#typed-flow), [snapshots and effective views](#snapshots-and-effective-views), [layouts and ranges](#layouts-and-ranges), [annotations and reasoning](#annotations-and-reasoning), [comparisons](#comparisons).
+
+## Code Architecture
+
+Choose nodes for the question: modules for dependencies, collaborating objects for a call path, or processes and external systems for deployment. Group by responsibility; expand one component when its internals matter. A folder tree is useful for navigation but does not establish calls, ownership, or runtime boundaries.
+
+These two views of an invented checkout system answer different questions:
+
+```text
+Source dependencies:
+
+[Checkout] -- imports --> [OrderStore] <-- implements -- [SqlOrderStore]
+```
+
+```text
+One runtime path; --> means a call:
+
+[Handler] --> [Checkout] --> [SqlOrderStore] --> [DB client]
+                                                   |
+                                                  SQL
+                                                   v
+                                             (External DB)
+```
+
+`OrderStore` is an interface; the example assumes application wiring supplies `SqlOrderStore`. It is not an extra runtime hop. In real code, inspect that wiring before naming the active implementation. A dependency arrow and a runtime call can point differently; keep their meanings explicit.
+
+Other useful directions: draw ownership as containment, put shared state beside its readers and writers, or follow an event across a queue into a consumer. Label a process, thread, or network boundary only when established. A function call alone does not imply a boundary, and a queued message does not imply immediate execution or completion.
+
+For a large system, keep a few recognizable components in the overview and use a separate detail for the reader's question. Keep names stable across views. Add a short caption about scope or omitted machinery rather than squeezing every class and edge into one picture.
+
+## Control Flow
+
+Find the trigger and follow the decisions that change the outcome. Use action labels for steps and conditions on branch exits. Straight paths, decision trees, loops, swimlanes, and state transitions are all options; a flowchart need not resemble every other flowchart.
+
+This invented handler releases an acquired handle on either processing outcome. Assume failed acquisition leaves no handle and release itself cannot fail:
+
+```text
+[Request]
+    |
+ <valid?> -- no --> [Reject]
+    | yes
+ [Acquire] -- failed --> [Report failure]
+    | acquired
+ [Process]
+    |
+ <outcome>
+    +-- success --> [Save result] --+
+    `-- failure --> [Save error] ---+
+                                   |
+                            [Release handle]
+                                   |
+                         [Return saved outcome]
+```
+
+The merge shares cleanup, not the saved result: success and failure still return different outcomes. In real code, check returns, thrown errors, and cleanup scope before drawing a common exit. Do not invent a failure policy to complete a symmetric branch.
+
+For a loop, make the return target and exit condition visible; use a labeled back-reference when a long connector obscures the path. Distinguish retry from normal iteration. For asynchronous work, consider separate caller/worker lanes so returning to the caller is not mistaken for completing the work. A branch selects a path; a fork starts concurrent work and needs its own join semantics.
+
+A useful caption says what starts the flow and what its endpoints mean. A short note can explain a non-obvious condition or exception. Keep source links and long explanations outside the drawing so its path remains easy to scan.
 
 ## Relationships
 
