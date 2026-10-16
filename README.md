@@ -1,6 +1,6 @@
 # rosuH's Skills
 
-[![skills.sh](https://img.shields.io/badge/skills.sh-ascii--explainer-black)](https://skills.sh/rosuh/skills)
+[![skills.sh](https://img.shields.io/badge/skills.sh-skills-black)](https://skills.sh/rosuh/skills)
 
 English | [简体中文](README.zh-CN.md)
 
@@ -15,16 +15,16 @@ My personal collection of agent skills. Each skill focuses on one task, with con
 
 ## Installation
 
-Requires Node.js and npm. Run this command in your project directory:
+Requires Node.js and npm. Run this command in your project directory, then choose the skills and agents to install:
 
 ```bash
-npx skills@latest add rosuH/skills --skill ascii-explainer
+npx skills@latest add rosuH/skills
 ```
 
-Choose your agent during installation. To install globally for Codex:
+To install both skills globally for Codex:
 
 ```bash
-npx skills@latest add rosuH/skills --skill ascii-explainer --agent codex --global
+npx skills@latest add rosuH/skills --skill ascii-explainer sub-agent --agent codex --global
 ```
 
 To list the available skills:
@@ -50,12 +50,22 @@ See [Claude Code skills](https://code.claude.com/docs/en/skills) and [Cursor Age
 
 ## Usage Examples
 
+These examples use Codex's `$skill-name` notation. In Claude Code and Cursor, use `/skill-name`.
+
+### ASCII explanations
+
 ```text
 Use $ascii-explainer to explain the full lifecycle of an HTTP request with an ASCII diagram.
 ```
 
 ```text
 Compare synchronous calls and message queues with ASCII diagrams. Show data flow and failure paths.
+```
+
+### Subagent coordination
+
+```text
+Use $sub-agent to implement this feature. Delegate code reading, implementation, and tests while the main agent owns planning, coordination, and final review.
 ```
 
 ## Adding a Skill

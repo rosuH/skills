@@ -1,6 +1,6 @@
 # rosuH's Skills
 
-[![skills.sh](https://img.shields.io/badge/skills.sh-ascii--explainer-black)](https://skills.sh/rosuh/skills)
+[![skills.sh](https://img.shields.io/badge/skills.sh-skills-black)](https://skills.sh/rosuh/skills)
 
 [English](README.md) | 简体中文
 
@@ -15,16 +15,16 @@
 
 ## 安装
 
-需要 Node.js 和 npm。在目标项目目录运行：
+需要 Node.js 和 npm。在目标项目目录运行，然后选择要安装的技能和 Agent：
 
 ```bash
-npx skills@latest add rosuH/skills --skill ascii-explainer
+npx skills@latest add rosuH/skills
 ```
 
-安装时选择需要使用的 agent。若要全局安装到 Codex：
+将两个技能全局安装到 Codex：
 
 ```bash
-npx skills@latest add rosuH/skills --skill ascii-explainer --agent codex --global
+npx skills@latest add rosuH/skills --skill ascii-explainer sub-agent --agent codex --global
 ```
 
 查看仓库内可安装的 skills：
@@ -50,12 +50,22 @@ npx skills@latest add rosuH/skills --skill sub-agent --agent cursor
 
 ## 使用示例
 
+以下示例使用 Codex 的 `$skill-name` 写法；在 Claude Code 和 Cursor 中使用 `/skill-name`。
+
+### ASCII 解释
+
 ```text
 使用 $ascii-explainer，用 ASCII 图解释一次 HTTP 请求的完整流程。
 ```
 
 ```text
 用 ASCII 图对比同步调用和消息队列，标出数据流与失败路径。
+```
+
+### 子 Agent 协作
+
+```text
+使用 $sub-agent 完成这个功能：委派代码阅读、实现和测试，由主 Agent 负责方案、编排、纠偏和最终验收。
 ```
 
 ## 添加 Skill
