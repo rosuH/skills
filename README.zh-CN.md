@@ -11,6 +11,7 @@
 | Skill | 用途 |
 | --- | --- |
 | [ascii-explainer](skills/ascii-explainer/SKILL.md) | 用 ASCII 文本图解释概念、业务逻辑、执行流程、系统架构和方案差异。 |
+| [sub-agent](skills/sub-agent/SKILL.md) | 委派研究、排障和实现，由主 Agent 负责方案、编排、纠偏与验收。 |
 
 ## 安装
 
@@ -34,6 +35,19 @@ npx skills@latest add rosuH/skills --list
 
 安装选项详见 [skills CLI 文档](https://github.com/vercel-labs/skills#install-a-skill)。
 
+## Claude Code 和 Cursor
+
+安装 `sub-agent`：
+
+```bash
+npx skills@latest add rosuH/skills --skill sub-agent --agent claude-code
+npx skills@latest add rosuH/skills --skill sub-agent --agent cursor
+```
+
+两者均可通过 `/sub-agent` 调用。技能使用标准 `SKILL.md`，委派行为取决于当前会话实际提供的工具与权限。`agents/openai.yaml` 是可选的 Codex 界面元数据，不是 Claude Code 或 Cursor 的子 Agent 定义。
+
+格式与加载方式见 [Claude Code skills](https://code.claude.com/docs/en/skills) 和 [Cursor Agent Skills](https://cursor.com/docs/context/skills)；委派能力见 [Claude Code subagents](https://code.claude.com/docs/en/sub-agents) 和 [Cursor subagents](https://cursor.com/docs/context/subagents)。
+
 ## 使用示例
 
 ```text
@@ -51,7 +65,11 @@ npx skills@latest add rosuH/skills --list
 ```text
 skills/
 +-- ascii-explainer/
+|   +-- SKILL.md
++-- sub-agent/
     +-- SKILL.md
+    +-- agents/
+        +-- openai.yaml
 ```
 
 仓库组织方式参考 [mattpocock/skills](https://github.com/mattpocock/skills)。

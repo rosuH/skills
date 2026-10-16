@@ -11,6 +11,7 @@ My personal collection of agent skills. Each skill focuses on one task, with con
 | Skill | Purpose |
 | --- | --- |
 | [ascii-explainer](skills/ascii-explainer/SKILL.md) | Explain concepts, business logic, workflows, system architecture, and trade-offs with ASCII diagrams. |
+| [sub-agent](skills/sub-agent/SKILL.md) | Delegate research, debugging, and implementation while the main agent owns planning, coordination, and review. |
 
 ## Installation
 
@@ -34,6 +35,19 @@ npx skills@latest add rosuH/skills --list
 
 See the [skills CLI documentation](https://github.com/vercel-labs/skills#install-a-skill) for installation options.
 
+## Claude Code and Cursor
+
+Install `sub-agent` for either agent:
+
+```bash
+npx skills@latest add rosuH/skills --skill sub-agent --agent claude-code
+npx skills@latest add rosuH/skills --skill sub-agent --agent cursor
+```
+
+Invoke it with `/sub-agent` in either agent. The skill uses standard `SKILL.md`; delegation depends on the tools and permissions available in the session. `agents/openai.yaml` is optional Codex UI metadata, not a Claude Code or Cursor subagent definition.
+
+See [Claude Code skills](https://code.claude.com/docs/en/skills) and [Cursor Agent Skills](https://cursor.com/docs/context/skills) for loading behavior, and [Claude Code subagents](https://code.claude.com/docs/en/sub-agents) and [Cursor subagents](https://cursor.com/docs/context/subagents) for delegation capabilities.
+
 ## Usage Examples
 
 ```text
@@ -51,7 +65,11 @@ Add instructions in `skills/<skill-name>/SKILL.md`, with `name` and `description
 ```text
 skills/
 +-- ascii-explainer/
+|   +-- SKILL.md
++-- sub-agent/
     +-- SKILL.md
+    +-- agents/
+        +-- openai.yaml
 ```
 
 Repository structure inspired by [mattpocock/skills](https://github.com/mattpocock/skills).
