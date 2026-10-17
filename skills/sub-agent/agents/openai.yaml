@@ -1,3 +1,0 @@
-interface:
-  display_name: "Sub Agent"
-  short_description: "Coordinate subagents and verify their results"
